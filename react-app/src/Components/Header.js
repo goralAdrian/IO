@@ -9,7 +9,8 @@ import PanelAdmina from '../Images/PanelAdmina.jpg';
 import Zalogujsie from '../Images/Zalogujsie.jpg';
 import Zarejestrujsie from '../Images/Zarejestrujsie.jpg';
 import Wyloguj from '../Images/Wyloguj.jpg';*/
-import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem,NavLink } from 'reactstrap';
+import { Navbar, NavbarBrand, //NavbarToggler, 
+    Collapse, Nav, NavItem, NavLink } from 'reactstrap';
 
 import Alert from 'react-s-alert';
 
@@ -21,6 +22,7 @@ const ROLES = {
 function Wylogowanie() {
     // this.preventDefault(); //Potrzebne-?? Odswieza-?? - nie powinno odswiezac, ale odswieza
     localStorage.setItem('loggedAs', '');
+    localStorage.setItem('username','');
     this.props.onLoggedUserChange2('');
     //????
     Alert.success('Pomyślnie wylogowano!', { position: 'top' });
@@ -45,8 +47,8 @@ function Visible(props) {
 
                     <Navbar color="light" light expand="md">
                         <NavbarBrand><Link to="/"><i className="fa fa-home" style={{ fontSize: '50px', color: 'light' }} /></Link></NavbarBrand>
-                        <NavbarToggler />
-                        <Collapse navbar>
+                        {/*<NavbarToggler />*/}
+                        <Collapse Collapse isOpen={true} navbar>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     <NavLink><Link to="/uzytkownik">Panel Użytkownika</Link></NavLink>
@@ -68,8 +70,8 @@ function Visible(props) {
 
                     <Navbar color="light" light expand="md">
                         <NavbarBrand><Link to="/"><i className="fa fa-home" style={{ fontSize: '50px', color: 'light' }} /></Link></NavbarBrand>
-                        <NavbarToggler />
-                        <Collapse navbar>
+                        {/*<NavbarToggler />*/}
+                        <Collapse Collapse isOpen={true} navbar>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     <NavLink><Link to="/admin">Panel Admina</Link></NavLink>
@@ -89,11 +91,11 @@ function Visible(props) {
         return (
             <nav>
                 <header className="App-header">
-                
+
                     <Navbar color="light" light expand="md">
                         <NavbarBrand><Link to="/"><i className="fa fa-home" style={{ fontSize: '50px', color: 'light' }} /></Link></NavbarBrand>
-                        <NavbarToggler />
-                        <Collapse navbar>
+                        {/*<NavbarToggler />*/}
+                        <Collapse Collapse isOpen={true} navbar>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     <NavLink><Link to="/logowanie">Logowanie</Link></NavLink>

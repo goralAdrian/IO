@@ -1,10 +1,91 @@
-import React from 'react';
+import React, {Component} from 'react';
+import DropdownMiejscowosc from './DropdownMiejscowosc';
+import CardAtrakcja from './CardAtrakcja';
+import {Row, Col} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+class HomePage extends Component {
 
-export default () => {
-    return (
-        <div>
-            <h5>Strona Główna</h5>
-        </div>
-    );
+    constructor(props) {
+        super(props);
+        this.state = {
+            atrakcje: [],
+            miejscowosc: ''
+        }
+    }
+
+    ZwrocenieTabeliAtrakcja = async () => {
+        //prompt(JSON.stringify(this.props.idMiejscowosc));
+        const OdpowiedzSerwera99 = await axios.post('/api/Uzytkownik/Panel_Admina/Zwroc_Atrakcje_Z_Miejscowosci', { miejscowosc: this.state.miejscowosc });
+
+        this.setState({
+            atrakcje: OdpowiedzSerwera99.data.daneAtrakcja,
+        });
+        //prompt(JSON.stringify(this.state.atrakcje));
+        //console.log(this.state.miejscowosc);
+    }
+
+    nazwamiejscowosc = (Miejscowosc) => {
+        this.setState ({
+            miejscowosc: Miejscowosc
+        }, () => {
+            this.ZwrocenieTabeliAtrakcja();
+        });
+    }
+
+    render() {
+        let atrakcjeCards = this.state.atrakcje.map(atrakcja => {
+            return (
+                <Col xl='4' lg='6' xs='12'>
+                    <CardAtrakcja atrakcja = {atrakcja} />
+                </Col>
+            )
+        });
+
+        if (localStorage.getItem('loggedAs') === 'User' || localStorage.getItem('loggedAs') === 'Admin') {
+            return (
+                <div>
+                    <h5>Strona Główna</h5>
+                    <Row>
+                        <Col sm='12' md={{ size: 2, offset: 4 }}>
+                            <h5 style={{textAlign: 'center', width: '100%'}}>Wybierz miejscowość</h5>
+                        </Col>
+                        <Col sm='12' md='3'>
+                            <DropdownMiejscowosc miejscowosc={this.nazwamiejscowosc} atrakcje={this.ZwrocenieTabeliAtrakcja}/>
+                        </Col>
+                    </Row>
+                    <br /><br />
+                    <Col sm='12' md={{ size: 6, offset: 3 }}>
+                        <Row>
+                            <h5 style={{textAlign: 'center', width: '100%'}}>Wybierz atrakcję</h5>
+                            <br /><br />
+                            {atrakcjeCards}
+                            <br/><br/><br/><br/> <br/><br/><br/><br/>      <br/><br/><br/><br/> <br/><br/><br/><br/>
+                            <br/>   
+                        </Row>
+                    </Col>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <h5>Strona Główna</h5>
+                    <Col sm='12' md={{ size: 12, offset: 0 }}>
+                        <Row>
+
+                            <h4 style={{textAlign: 'center', width: '100%'}}>
+                            <br/> <br/> <br/> <br/> <br/>
+                            <h1>Witamy!</h1><br/>
+                            Do prawidłowego korzystania z serwisu wymagane jest posiadanie konta!<br/>
+                            Zarejestruj się, klikając w odpowiedni przycisk w panelu nawigacyjnym lub <Link to="/rejestracja">Tutaj</Link>.<br/><br/>
+                            <h3>Dziękujemy za korzystanie z serwisu i życzymy udanych rezerwacji!</h3></h4>
+                        </Row>
+                    </Col>
+                </div>
+            );
+        }
+    }
 }
+
+export default HomePage;
